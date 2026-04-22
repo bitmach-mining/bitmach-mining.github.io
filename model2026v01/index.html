@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BitMach Investor Dashboard</title>
+  <meta name="description" content="Investor-facing overview of BitMach's Phase 1 deployment, contracted access, base-case economics and multi-site growth roadmap." />
+  <link rel="icon" type="image/png" href="assets/img/logo-white.png" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <div class="bg-orb bg-orb-a"></div>
+  <div class="bg-orb bg-orb-b"></div>
+
+  <header class="topbar">
+    <a href="#overview" class="brand-lockup">
+      <img src="assets/img/logo-white.png" alt="BitMach" class="brand-logo" />
+      <div>
+        <div class="brand-descriptor">DIGITAL | ENERGY | POWER | INFRASTRUCTURE</div>
+        <div class="brand-name">BitMach Investor Dashboard</div>
+      </div>
+    </a>
+
+    <nav class="topnav">
+      <a href="#overview">Overview</a>
+      <a href="#economics">Economics</a>
+      <a href="#growth">Growth</a>
+      <a href="#sites">Sites</a>
+      <a href="#investor-pack">Investor Pack</a>
+    </nav>
+
+    <div class="topbar-actions">
+      <a href="#investor-pack" class="secondary-btn">Investor Pack</a>
+      <a href="mailto:carel@bitmachbtc.com" class="primary-btn">carel@bitmachbtc.com</a>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section id="overview" class="hero card">
+      <div class="hero-copy">
+        <div class="eyebrow">Investor Overview</div>
+        <h1>Energy-linked digital infrastructure with contracted access, rapid deployment and immediate monetisation of power.</h1>
+        <p class="lede">
+          BitMach is building a modular compute platform at industrial energy nodes, starting with a 20&nbsp;MW Phase&nbsp;1 deployment across Grootvlei and AMSA Vanderbijlpark.
+          The current case is designed to prove execution quickly, generate revenue as soon as capacity is commissioned, and scale through a portfolio of named nodes rather than speculative greenfield development.
+        </p>
+        <p class="lede secondary">
+          Growth is supported by contracted industrial-grade power access, brownfield electrical infrastructure and a deployment model that can move from capital commitment to commissioned capacity in approximately 12&nbsp;weeks.
+        </p>
+
+        <div class="hero-pills" id="heroPills"></div>
+
+        <div class="hero-meta">
+          <span>As of 22 Apr 2026</span>
+          <span class="meta-sep">•</span>
+          <span>Investor enquiries: <a href="mailto:carel@bitmachbtc.com">carel@bitmachbtc.com</a></span>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="visual-banner">
+          <img src="assets/img/brand-banner.jpg" alt="BitMach brand banner" />
+        </div>
+        <div class="visual-card">
+          <img src="assets/img/site-photo.png" alt="BitMach modular deployment concept" />
+          <div class="visual-overlay">
+            <span class="visual-label">Contracted access</span>
+            <strong>Phase 1 is positioned inside existing industrial infrastructure.</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="metric-grid" id="metricGrid"></section>
+
+    <section id="economics" class="section-shell">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Phase 1 Economics</div>
+          <h2>Current base-case underwriting view</h2>
+        </div>
+        <p>
+          The simplified Phase 1 model is presented as the current underwriting case. Demand-response income and hyperscaler resale remain excluded from the base case and are treated as additional upside layers only after core operating performance is established.
+        </p>
+      </div>
+
+      <div class="year-card-grid" id="yearCardGrid"></div>
+
+      <div class="two-up">
+        <article class="card note-card">
+          <h3>Base-case operating profile</h3>
+          <div class="profile-grid" id="profileGrid"></div>
+          <p class="fineprint">
+            Revenue begins at commissioning. In the current base case, capital deployment is front-loaded in Year&nbsp;1, while operating performance improves materially as the fleet is fully installed and monetised.
+          </p>
+        </article>
+
+        <article class="card table-card">
+          <h3>Three-year summary</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Metric</th>
+                  <th>Year 1</th>
+                  <th>Year 2</th>
+                  <th>Year 3</th>
+                </tr>
+              </thead>
+              <tbody id="summaryTableBody"></tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-shell">
+      <div class="section-header compact">
+        <div>
+          <div class="eyebrow">Revenue Architecture</div>
+          <h2>Underwritten today vs. layered upside</h2>
+        </div>
+      </div>
+
+      <div class="two-up" id="revenueArchitecture"></div>
+    </section>
+
+    <section id="growth" class="section-shell growth-section">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Growth Roadmap</div>
+          <h2>Why the scale path is rational</h2>
+        </div>
+        <p>
+          BitMach's expansion curve is built around named nodes with predefined electrical capacity, existing substations and brownfield infrastructure reuse.
+          Capacity therefore grows in step changes as each site is commissioned, rather than through abstract percentage-growth assumptions.
+        </p>
+      </div>
+
+      <div class="callout-band">
+        <div class="callout-kicker">Scale rationale</div>
+        <div class="callout-copy">
+          The first 500&nbsp;MW of industrial-grade capacity is already secured across the platform pipeline; capital is the principal execution unlock from here.
+        </div>
+      </div>
+
+      <div class="two-up growth-layout">
+        <article class="card ramp-card">
+          <div class="card-headline-row">
+            <h3>Named-node compute ramp</h3>
+            <span class="legend-note">Model base case • 2026–2030</span>
+          </div>
+          <div id="rampLegend" class="legend"></div>
+          <div id="rampChart" class="ramp-chart"></div>
+        </article>
+
+        <article class="card phase-card">
+          <h3>Deployment pathway</h3>
+          <div class="phase-stack">
+            <div class="phase-item">
+              <span class="phase-tag">Phase 1</span>
+              <strong>0–6 months | 20 MW</strong>
+              <p>Proof of execution across Grootvlei and AMSA Vanderbijlpark, with immediate monetisation of commissioned power.</p>
+            </div>
+            <div class="phase-item">
+              <span class="phase-tag">Phase 2</span>
+              <strong>6–24 months | 80–100 MW</strong>
+              <p>Expansion of proven sites, solar blending at AMSA, and broader tariff optimisation through flexible-demand positioning.</p>
+            </div>
+            <div class="phase-item">
+              <span class="phase-tag">Phase 3</span>
+              <strong>24+ months | 500 MW – 2 GW</strong>
+              <p>Replication across additional industrial and Eskom-linked nodes, with layered upside from broader compute and energy services.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="sites" class="section-shell">
+      <div class="section-header compact">
+        <div>
+          <div class="eyebrow">Contracted Access</div>
+          <h2>Named nodes underpinning the platform</h2>
+        </div>
+      </div>
+      <div class="site-grid" id="siteGrid"></div>
+    </section>
+
+    <section class="section-shell">
+      <div class="section-header compact">
+        <div>
+          <div class="eyebrow">Energy-Cost Pathway</div>
+          <h2>Energy input cost remains the primary return driver</h2>
+        </div>
+      </div>
+      <div class="energy-grid" id="energyGrid"></div>
+    </section>
+
+    <section class="section-shell">
+      <div class="section-header compact">
+        <div>
+          <div class="eyebrow">Execution Readiness</div>
+          <h2>From capital commitment to first hash</h2>
+        </div>
+      </div>
+
+      <div class="two-up">
+        <article class="card timeline-card">
+          <div class="timeline-badge">Approx. 12 weeks</div>
+          <div class="timeline" id="timeline"></div>
+        </article>
+
+        <article class="card defensible-card">
+          <h3>Why this position is defensible</h3>
+          <div class="defensible-list" id="defensibleList"></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="investor-pack" class="section-shell">
+      <div class="section-header compact">
+        <div>
+          <div class="eyebrow">Investor Pack</div>
+          <h2>Supporting materials</h2>
+        </div>
+        <p>
+          The current investor pack is designed to keep the investment case high-level and decision-oriented, with supporting detail available in the downloadable materials.
+        </p>
+      </div>
+      <div class="doc-grid" id="docGrid"></div>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    <div>BitMach Investor Dashboard • Digital | Energy | Power | Infrastructure</div>
+    <div>Investor enquiries: <a href="mailto:carel@bitmachbtc.com">carel@bitmachbtc.com</a></div>
+  </footer>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
