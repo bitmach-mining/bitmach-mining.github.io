@@ -123,19 +123,6 @@
       applyPreset(state.presetKey);
     });
 
-    document.getElementById('shareScenarioBtn').addEventListener('click', async () => {
-      writeUrlState();
-      try {
-        await navigator.clipboard.writeText(window.location.href);
-        const btn = document.getElementById('shareScenarioBtn');
-        const original = btn.textContent;
-        btn.textContent = 'Scenario link copied';
-        setTimeout(() => { btn.textContent = original; }, 1500);
-      } catch (err) {
-        console.warn(err);
-      }
-    });
-
     document.getElementById('saveSnapshotBtn').addEventListener('click', () => {
       const scenario = getScenario();
       const metrics = computeMetrics(scenario);

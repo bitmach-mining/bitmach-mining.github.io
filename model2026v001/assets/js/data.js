@@ -345,7 +345,7 @@ window.BITMACH_DATA = {
     ],
     sourceRegister: [
       { title: 'Detailed 12-month + 10-year model', date: 'Apr 2026', use: 'Primary scenario engine used by the dashboard.', href: 'assets/docs/BitMach_Master_Model_Phase1_12M_10Y_v2.xlsx' },
-      { title: 'Phase 1 investor model', date: 'Apr 2026', use: 'Supplementary cleaner operating model included in the investor pack.', href: 'assets/docs/BitMach_Clean_Phase1_Model_v0.1.xlsx' },
+      { title: 'Investor 1 year model', date: 'Apr 2026', use: 'Lightweight snapshot model for investor discussion and quick sensitivity review.', href: 'assets/docs/BitMach_Phase1_20MW_3Y_Model.xlsx' },
       { title: 'Investor memorandum', date: 'Apr 2026', use: 'Platform narrative, capital structure and investment proposition.', href: 'assets/docs/BitMach_Investor_Memo_LATEST.pdf' },
       { title: 'Investor presentation', date: 'Apr 2026', use: 'Current platform overview, capital stack and deployment framing.', href: 'assets/docs/Bitmach_Investor_Pres_LATEST.pdf' },
       { title: 'Grootvlei concept design', date: 'Feb 2026', use: 'Phase 1 technical configuration and brownfield integration basis.', href: 'assets/docs/Bitmach_Grootvlei_Concept Design v0.5.pdf' }
