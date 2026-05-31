@@ -732,3 +732,136 @@ tbody td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nu
   .ramp-solar { grid-area: solar; text-align: left; }
   .visual-card { min-height: 320px; }
 }
+
+/* ============================================================
+   Core Platform additions (May 2026 update)
+   ============================================================ */
+
+/* Layered revenue stack */
+.stack-card { padding: 22px; }
+.stack-intro { color: var(--muted); line-height: 1.65; margin: 14px 0 4px; max-width: 86ch; }
+.layer-stack { display: grid; gap: 10px; margin-top: 16px; }
+.layer-row {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) minmax(190px, auto);
+  gap: 16px;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: var(--bg-soft);
+  border: 1px solid rgba(255,255,255,0.07);
+  position: relative;
+}
+.layer-row::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 4px; border-radius: 4px; background: var(--accent);
+}
+.layer-option { opacity: 0.72; border-style: dashed; }
+.layer-option::before { background: var(--site-newcastle); }
+.layer-num {
+  width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center;
+  font-weight: 800; font-size: 1.05rem; color: var(--accent);
+  background: rgba(255,22,72,0.12); border: 1px solid rgba(255,22,72,0.22);
+}
+.layer-option .layer-num { color: var(--muted); background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); }
+.layer-name { font-weight: 700; font-size: 1.02rem; }
+.layer-source { color: var(--muted); font-size: 0.9rem; margin-top: 4px; line-height: 1.5; }
+.layer-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.layer-timing { color: var(--muted-2); font-size: 0.84rem; }
+.layer-badge {
+  font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700;
+  padding: 5px 10px; border-radius: 999px;
+}
+.badge-core { color: var(--accent); background: rgba(255,22,72,0.12); border: 1px solid rgba(255,22,72,0.24); }
+.badge-option { color: var(--muted); background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
+
+/* Phase 1 capital structure */
+.phase1-layout { align-items: start; }
+.capital-stack { display: grid; gap: 16px; margin-top: 18px; }
+.capital-row { display: grid; gap: 8px; }
+.capital-top { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.capital-name { font-weight: 600; }
+.capital-amount { font-weight: 700; font-variant-numeric: tabular-nums; }
+.capital-bar-shell {
+  height: 16px; border-radius: 999px; background: rgba(255,255,255,0.05);
+  overflow: hidden; border: 1px solid rgba(255,255,255,0.06);
+}
+.capital-bar {
+  height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, #ff1648, #ff5d7a);
+}
+.capital-terms { color: var(--muted-2); font-size: 0.84rem; line-height: 1.5; }
+
+/* Core Platform snapshot table emphasis */
+.snapshot-card { margin-bottom: 16px; }
+.snapshot-card tbody td:not(:first-child) { font-weight: 600; }
+.snapshot-card tbody tr:first-child td:not(:first-child) { color: var(--text); }
+
+/* 2035 revenue mix */
+.mix-bar {
+  display: flex; height: 26px; border-radius: 999px; overflow: hidden;
+  margin-top: 18px; border: 1px solid rgba(255,255,255,0.08);
+}
+.mix-segment { height: 100%; }
+.mix-legend { display: grid; gap: 10px; margin-top: 16px; }
+.mix-legend .legend-item { justify-content: flex-start; gap: 10px; }
+.mix-legend .legend-item strong { margin-left: auto; font-variant-numeric: tabular-nums; color: var(--text); }
+
+/* Capex bridge */
+.capex-bridge { display: grid; gap: 12px; margin-top: 18px; }
+.capex-row {
+  display: grid; grid-template-columns: minmax(150px, 0.9fr) minmax(0, 1.4fr) 78px;
+  gap: 12px; align-items: center;
+}
+.capex-name { color: var(--muted); font-size: 0.9rem; }
+.capex-bar-shell {
+  height: 16px; border-radius: 999px; background: rgba(255,255,255,0.05);
+  overflow: hidden; border: 1px solid rgba(255,255,255,0.06);
+}
+.capex-bar { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #ff1648, #ff5d7a); }
+.capex-val { font-variant-numeric: tabular-nums; font-weight: 700; text-align: right; font-size: 0.92rem; }
+
+/* Valuation bars */
+.valuation-bars { display: grid; gap: 12px; margin-top: 18px; }
+.valuation-row {
+  display: grid; grid-template-columns: 92px minmax(0, 1fr) 88px;
+  gap: 12px; align-items: center;
+}
+.valuation-rate { color: var(--muted); font-size: 0.9rem; }
+.valuation-bar-shell {
+  height: 18px; border-radius: 999px; background: rgba(255,255,255,0.05);
+  overflow: hidden; border: 1px solid rgba(255,255,255,0.06);
+}
+.valuation-bar { height: 100%; border-radius: 999px; background: rgba(255,255,255,0.18); }
+.valuation-base .valuation-bar { background: linear-gradient(90deg, #ff1648, #ff5d7a); }
+.valuation-base .valuation-rate { color: var(--text); font-weight: 700; }
+.valuation-npv { font-variant-numeric: tabular-nums; font-weight: 700; text-align: right; font-size: 0.92rem; }
+
+/* Downside table */
+.row-sub { color: var(--muted-2); font-size: 0.82rem; margin-top: 4px; font-weight: 400; line-height: 1.45; }
+tbody tr.row-stress td { color: #ff8aa1; }
+tbody tr.row-stress .row-sub { color: #d98a9a; }
+
+/* Risk framework */
+.risk-list { display: grid; gap: 10px; margin-top: 16px; }
+.risk-item {
+  padding: 14px 14px 14px 16px; border-radius: 18px; background: var(--bg-soft);
+  border: 1px solid rgba(255,255,255,0.07); position: relative;
+}
+.risk-item::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 4px; border-radius: 4px; background: var(--accent);
+}
+.risk-name { font-weight: 700; font-size: 0.96rem; }
+.risk-mitigant { color: var(--muted); line-height: 1.6; margin-top: 6px; font-size: 0.92rem; }
+
+/* Responsive */
+@media (max-width: 720px) {
+  .layer-row { grid-template-columns: 40px 1fr; }
+  .layer-meta { grid-column: 1 / -1; flex-direction: row; align-items: center; justify-content: space-between; }
+  .capex-row { grid-template-columns: 1fr 56px; }
+  .capex-bar-shell { grid-column: 1 / -1; order: 3; }
+  .valuation-row { grid-template-columns: 84px 1fr; }
+  .valuation-npv { grid-column: 2; text-align: right; }
+  .valuation-bar-shell { grid-column: 1 / -1; order: 3; }
+}

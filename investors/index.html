@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BitMach Investor Dashboard</title>
-  <meta name="description" content="Investor-facing overview of BitMach's Phase 1 deployment, contracted access, base-case economics and multi-site growth roadmap." />
+  <title>BitMach Investor Overview — Core Platform Acceleration Case</title>
+  <meta name="description" content="Investor overview of BitMach's energy-orchestrated digital-infrastructure platform: the Core Platform Acceleration Case (Layers 1–4), the 20MW Phase 1 proof of execution, milestone-gated ramp to 2.4GW, and platform economics." />
   <link rel="icon" type="image/png" href="assets/img/logo-white.png" />
   <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
@@ -17,21 +17,21 @@
       <img src="assets/img/logo-white.png" alt="BitMach" class="brand-logo" />
       <div>
         <div class="brand-descriptor">DIGITAL | ENERGY | POWER | INFRASTRUCTURE</div>
-        <div class="brand-name">BitMach Investor Dashboard</div>
+        <div class="brand-name">BitMach Investor Overview</div>
       </div>
     </a>
 
     <nav class="topnav">
-      <a href="#overview">Overview</a>
+      <a href="#platform">Platform</a>
+      <a href="#phase1">Phase 1</a>
       <a href="#economics">Economics</a>
-      <a href="#growth">Growth</a>
-      <a href="#sites">Sites</a>
+      <a href="#growth">Roadmap</a>
+      <a href="#valuation">Valuation</a>
       <a href="#investor-pack">Investor Pack</a>
     </nav>
 
     <div class="topbar-actions">
       <a href="https://bitmachbtc.com/model2026v001/" class="secondary-btn">Scenario Analysis</a>
-      <a href="#investor-pack" class="secondary-btn">Investor Pack</a>
       <a href="mailto:stafford@bitmachbtc.com" class="primary-btn">stafford@bitmachbtc.com</a>
     </div>
   </header>
@@ -39,21 +39,20 @@
   <main class="page-shell">
     <section id="overview" class="hero card">
       <div class="hero-copy">
-        <div class="eyebrow">Investor Overview</div>
-        <h1>Energy-linked digital infrastructure with contracted access, rapid deployment and immediate monetisation of power.</h1>
+        <div class="eyebrow">Investor Overview · Core Platform Acceleration Case</div>
+        <h1>Energy-orchestrated digital infrastructure that turns contracted power into compute, flexibility and AI-ready capacity.</h1>
         <p class="lede">
-          BitMach is building a modular compute platform at industrial energy nodes, starting with a 20&nbsp;MW Phase&nbsp;1 deployment across Grootvlei and AMSA Vanderbijlpark.
-          The current case is designed to prove execution quickly, generate revenue as soon as capacity is commissioned, and scale through a portfolio of named nodes rather than speculative greenfield development.
+          BitMach converts contracted industrial power access into programmable compute capacity, grid flexibility and AI-ready data-centre infrastructure. The business is not defined by any single compute use case &mdash; it is defined by access to scarce, grid-connected power and the ability to present that load to the grid as controllable and dispatchable.
         </p>
         <p class="lede secondary">
-          Growth is supported by contracted industrial-grade power access, brownfield electrical infrastructure and a deployment model that can move from capital commitment to commissioned capacity in approximately 12&nbsp;weeks.
+          The case presented here is the <strong>Core Platform Acceleration Case (Layers&nbsp;1&ndash;4)</strong>. Owned-GPU inference (Layer&nbsp;5) is held as a separate, optional venture &mdash; ring-fenced in its own SPV if and when it is pursued.
         </p>
 
         <div class="hero-pills" id="heroPills"></div>
 
         <div class="hero-meta">
-          <span>As of 22 Apr 2026</span>
-          <span class="meta-sep">•</span>
+          <span id="asOfLabel">May 2026</span>
+          <span class="meta-sep">&bull;</span>
           <span>Investor enquiries: <a href="mailto:carel@bitmachbtc.com">carel@bitmachbtc.com</a></span>
         </div>
       </div>
@@ -66,7 +65,7 @@
           <img src="assets/img/site-photo.png" alt="BitMach modular deployment concept" />
           <div class="visual-overlay">
             <span class="visual-label">Contracted access</span>
-            <strong>Phase 1 is positioned inside existing industrial infrastructure.</strong>
+            <strong>Phase 1 deploys inside existing industrial and power-station infrastructure.</strong>
           </div>
         </div>
       </div>
@@ -74,43 +73,90 @@
 
     <section class="metric-grid" id="metricGrid"></section>
 
-    <section id="economics" class="section-shell">
+    <section id="platform" class="section-shell">
       <div class="section-header">
         <div>
-          <div class="eyebrow">Phase 1 Economics</div>
-          <h2>Current base-case underwriting view</h2>
+          <div class="eyebrow">Core Infrastructure Thesis</div>
+          <h2>The scarce asset is controllable power &mdash; not the chip</h2>
         </div>
         <p>
-          The simplified Phase 1 model is presented as the current underwriting case. Demand-response income and hyperscaler resale remain excluded from the base case and are treated as additional upside layers only after core operating performance is established.
+          South Africa's grid no longer suffers primarily from a shortage of generation; it suffers from a shortage of controllable, real-time demand. The AI market needs power-secure sites. BitMach sits between the two as an energy-orchestration layer, monetising the same power platform across multiple revenue layers.
         </p>
       </div>
 
-      <div class="year-card-grid" id="yearCardGrid"></div>
+      <article class="card stack-card">
+        <div class="card-headline-row">
+          <h3>Layered revenue stack</h3>
+          <span class="legend-note">Layers 1&ndash;4 underwritten · Layer 5 optional</span>
+        </div>
+        <p class="stack-intro" id="stackIntro"></p>
+        <div class="layer-stack" id="layerStack"></div>
+      </article>
+    </section>
 
-      <div class="two-up">
-        <article class="card note-card">
-          <h3>Base-case operating profile</h3>
-          <div class="profile-grid" id="profileGrid"></div>
-          <p class="fineprint">
-            Revenue begins at commissioning. In the current base case, capital deployment is front-loaded in Year&nbsp;1, while operating performance improves materially as the fleet is fully installed and monetised.
-          </p>
+    <section id="phase1" class="section-shell">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Phase 1 &mdash; 20 MW Proof of Execution</div>
+          <h2>10 MW Grootvlei + 10 MW AMSA Vanderbijlpark</h2>
+        </div>
+        <p id="phase1Intro"></p>
+      </div>
+
+      <div class="two-up phase1-layout">
+        <article class="card capital-card">
+          <div class="card-headline-row">
+            <h3>Phase 1 capital structure</h3>
+            <span class="legend-note">Audited underwriting model</span>
+          </div>
+          <div class="capital-stack" id="capitalStack"></div>
+          <p class="fineprint" id="phase1Note"></p>
         </article>
 
-        <article class="card table-card">
-          <h3>Three-year summary</h3>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Metric</th>
-                  <th>Year 1</th>
-                  <th>Year 2</th>
-                  <th>Year 3</th>
-                </tr>
-              </thead>
-              <tbody id="summaryTableBody"></tbody>
-            </table>
+        <article class="card note-card">
+          <h3>Underwriting snapshot</h3>
+          <div class="profile-grid" id="phase1Metrics"></div>
+          <p class="fineprint">
+            Phase 1 establishes operating proof &mdash; commissioning, telemetry, curtailment and investor-visible assets. Returns are deliberately conservative at this stage; the platform value sits in the 10-year Core Platform case below.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="economics" class="section-shell">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Core Platform Economics</div>
+          <h2>Milestone-gated 10-year acceleration case</h2>
+        </div>
+        <p id="snapshotNote"></p>
+      </div>
+
+      <article class="card table-card snapshot-card">
+        <h3>Core Platform snapshot (Layers 1&ndash;4)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr id="snapshotHead"></tr></thead>
+            <tbody id="snapshotBody"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <div class="two-up">
+        <article class="card mix-card">
+          <h3>2035 revenue mix</h3>
+          <div class="mix-bar" id="mixBar"></div>
+          <div class="mix-legend" id="mixLegend"></div>
+          <p class="fineprint" id="mixNote"></p>
+        </article>
+
+        <article class="card capex-card">
+          <div class="card-headline-row">
+            <h3>10-year capex bridge</h3>
+            <span class="legend-note" id="capexTotal"></span>
           </div>
+          <div class="capex-bridge" id="capexBridge"></div>
+          <p class="fineprint">Owned GPUs are excluded entirely &mdash; AI/DC hosting infrastructure is power-secure capacity only, with hardware partner- or customer-funded.</p>
         </article>
       </div>
     </section>
@@ -122,7 +168,6 @@
           <h2>Underwritten today vs. layered upside</h2>
         </div>
       </div>
-
       <div class="two-up" id="revenueArchitecture"></div>
     </section>
 
@@ -130,52 +175,45 @@
       <div class="section-header">
         <div>
           <div class="eyebrow">Growth Roadmap</div>
-          <h2>Why the scale path is rational</h2>
+          <h2>A milestone-gated ramp to 2.4 GW</h2>
         </div>
         <p>
-          BitMach's expansion curve is built around named nodes with predefined electrical capacity, existing substations and brownfield infrastructure reuse.
-          Capacity therefore grows in step changes as each site is commissioned, rather than through abstract percentage-growth assumptions.
+          Each capacity step is gated on operating evidence rather than funded upfront. The structure lets a large infrastructure investor support aggressive growth without writing an unconditional cheque &mdash; the platform can grow quickly, but capital release stays tied to proof.
         </p>
       </div>
 
       <div class="callout-band">
         <div class="callout-kicker">Scale rationale</div>
         <div class="callout-copy">
-          The first 500&nbsp;MW of industrial-grade capacity is already secured across the platform pipeline; capital is the principal execution unlock from here.
+          ~2&nbsp;GW of grid-connected industrial power access is already secured across the platform pipeline through Eskom and AMSA; capital and milestone proof are the principal execution unlocks from here.
         </div>
       </div>
 
       <div class="two-up growth-layout">
         <article class="card ramp-card">
           <div class="card-headline-row">
-            <h3>Named-node compute ramp</h3>
-            <span class="legend-note">Model base case • 2026–2030</span>
+            <h3>Connected-load ramp</h3>
+            <span class="legend-note">Model totals 2026&ndash;2035 · illustrative site allocation</span>
           </div>
           <div id="rampLegend" class="legend"></div>
           <div id="rampChart" class="ramp-chart"></div>
         </article>
 
         <article class="card phase-card">
-          <h3>Deployment pathway</h3>
-          <div class="phase-stack">
-            <div class="phase-item">
-              <span class="phase-tag">Phase 1</span>
-              <strong>0–6 months | 20 MW</strong>
-              <p>Proof of execution across Grootvlei and AMSA Vanderbijlpark, with immediate monetisation of commissioned power.</p>
-            </div>
-            <div class="phase-item">
-              <span class="phase-tag">Phase 2</span>
-              <strong>6–24 months | 80–100 MW</strong>
-              <p>Expansion of proven sites, solar blending at AMSA, and broader tariff optimisation through flexible-demand positioning.</p>
-            </div>
-            <div class="phase-item">
-              <span class="phase-tag">Phase 3</span>
-              <strong>24+ months | 500 MW – 2 GW</strong>
-              <p>Replication across additional industrial and Eskom-linked nodes, with layered upside from broader compute and energy services.</p>
-            </div>
-          </div>
+          <h3>Milestone-gated capital release</h3>
+          <div class="phase-stack" id="milestoneStack"></div>
         </article>
       </div>
+    </section>
+
+    <section class="section-shell">
+      <div class="section-header compact">
+        <div>
+          <div class="eyebrow">Energy-Cost Pathway</div>
+          <h2>The tariff path is the platform's single largest value lever</h2>
+        </div>
+      </div>
+      <div class="energy-grid" id="energyGrid"></div>
     </section>
 
     <section id="sites" class="section-shell">
@@ -188,20 +226,46 @@
       <div class="site-grid" id="siteGrid"></div>
     </section>
 
-    <section class="section-shell">
-      <div class="section-header compact">
+    <section id="valuation" class="section-shell">
+      <div class="section-header">
         <div>
-          <div class="eyebrow">Energy-Cost Pathway</div>
-          <h2>Energy input cost remains the primary return driver</h2>
+          <div class="eyebrow">Valuation Context</div>
+          <h2>An infrastructure-platform case, shown transparently</h2>
         </div>
+        <p id="valuationIntro"></p>
       </div>
-      <div class="energy-grid" id="energyGrid"></div>
+
+      <div class="two-up">
+        <article class="card valuation-card">
+          <div class="card-headline-row">
+            <h3>Core Platform NPV by discount rate</h3>
+            <span class="legend-note">Live from the model</span>
+          </div>
+          <div class="valuation-bars" id="valuationBars"></div>
+        </article>
+
+        <article class="card table-card">
+          <div class="card-headline-row">
+            <h3>Downside scenarios</h3>
+            <span class="legend-note">Model re-run at stated inputs</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Scenario</th><th>NPV</th><th>IRR</th></tr>
+              </thead>
+              <tbody id="downsideBody"></tbody>
+            </table>
+          </div>
+          <p class="fineprint" id="downsideIntro"></p>
+        </article>
+      </div>
     </section>
 
     <section class="section-shell">
       <div class="section-header compact">
         <div>
-          <div class="eyebrow">Execution Readiness</div>
+          <div class="eyebrow">Execution &amp; Risk</div>
           <h2>From capital commitment to first hash</h2>
         </div>
       </div>
@@ -213,8 +277,8 @@
         </article>
 
         <article class="card defensible-card">
-          <h3>Why this position is defensible</h3>
-          <div class="defensible-list" id="defensibleList"></div>
+          <h3>Risk framework &amp; mitigants</h3>
+          <div class="risk-list" id="riskList"></div>
         </article>
       </div>
     </section>
@@ -226,7 +290,7 @@
           <h2>Supporting materials</h2>
         </div>
         <p>
-          The current investor pack is designed to keep the investment case high-level and decision-oriented, with supporting detail available in the downloadable materials.
+          The current pack keeps the investment case high-level and decision-oriented, with the full audited models and supporting documentation available to download.
         </p>
       </div>
       <div class="doc-grid" id="docGrid"></div>
@@ -234,8 +298,8 @@
   </main>
 
   <footer class="page-footer">
-    <div>BitMach Investor Dashboard • Digital | Energy | Power | Infrastructure</div>
-    <div>Investor enquiries: <a href="mailto:carel@bitmachbtc.com">carel@bitmachbtc.com</a></div>
+    <div>BitMach &bull; Digital | Energy | Power | Infrastructure</div>
+    <div>Private &amp; confidential &bull; For discussion purposes only &bull; <a href="mailto:carel@bitmachbtc.com">carel@bitmachbtc.com</a></div>
   </footer>
 
   <script src="assets/js/data.js"></script>
