@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BitMach — Scenario &amp; Sensitivity Analysis</title>
-  <meta name="description" content="Interactive scenario and sensitivity analysis for BitMach's Core Platform Acceleration Case (Layers 1–4): audited platform economics, discount-rate and terminal-multiple sensitivity, downside scenarios, and a live Phase 1 explorer." />
+  <title>BitMach — Interactive Investment Model</title>
+  <meta name="description" content="Interactive investor model for BitMach's Core Platform Acceleration Case (Layers 1–4). Adjust the real model assumptions and watch NPV, IRR, EBITDA and the full sensitivity suite recompute live — matching the downloadable Excel model exactly." />
   <link rel="icon" type="image/png" href="assets/img/logo-white.png" />
   <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
@@ -15,60 +15,64 @@
     <div class="brand-lockup">
       <img src="assets/img/logo-white.png" alt="BitMach" class="brand-logo" />
       <div>
-        <div class="eyebrow">Interactive scenario &amp; sensitivity analysis</div>
+        <div class="eyebrow">Interactive investment model</div>
         <h1>Energy That Yields</h1>
       </div>
     </div>
     <div class="topbar-actions">
-      <a id="modelDownloadTop" class="secondary-btn" target="_blank" rel="noopener">Download 10-year model</a>
-      <a id="phase1ModelDownloadTop" class="primary-btn" target="_blank" rel="noopener">Download Phase 1 model</a>
+      <a id="dlModelTop" class="secondary-btn" target="_blank" rel="noopener">Download 10-year model</a>
+      <a id="dlPhase1" class="primary-btn" target="_blank" rel="noopener">Download Phase 1 model</a>
     </div>
   </header>
 
   <main class="page-shell">
     <section class="hero-card card">
       <div class="hero-copy">
-        <div class="hero-kicker">BitMach • Digital | Energy | Power | Infrastructure</div>
-        <h2>Interactive scenario &amp; sensitivity analysis for the Core Platform Acceleration Case.</h2>
+        <div class="hero-kicker">BitMach · Digital | Energy | Power | Infrastructure</div>
+        <h2>Run the investment case yourself.</h2>
         <p>
-          The headline economics on this page are the audited Core Platform (Layers&nbsp;1&ndash;4) outputs: NPV, IRR, the 2026&ndash;2035 ramp, the discount-rate and terminal-multiple sensitivities, and the downside scenarios. Layer&nbsp;5 owned-GPU inference is excluded and ring-fenced as a separate SPV option.
+          This is the <strong>Core Platform Acceleration Case</strong> — the same audited ten-year model behind our investor pack, made interactive. Move any assumption on the left and the valuation, returns, revenue mix and sensitivity tables recompute instantly, exactly the way the downloadable Excel does.
         </p>
         <p>
-          The control panel is an independent <strong>live explorer</strong> for Phase&nbsp;1 and ramp sensitivities &mdash; useful for intuition around energy cost, Bitcoin, hardware and capital structure, but not a re-run of the full master model.
+          The model covers Revenue Layers&nbsp;1–4: the Bitcoin anchor, demand response and grid services, energy-market value, and AI/data-centre power resale and hosting. Owned-GPU inference (Layer&nbsp;5) is deliberately excluded and held as a separate SPV option.
         </p>
         <div class="hero-pills">
-          <span class="pill">20 MW Phase 1 · 10 / 10 split</span>
-          <span class="pill">2.4 GW by 2035</span>
-          <span class="pill">R45.5bn NPV @ 15%</span>
-          <span class="pill">38.5% unlevered IRR</span>
-          <span class="pill">Discount &amp; terminal-multiple sensitivity</span>
-          <span class="pill">As of May 2026</span>
+          <span class="pill">20 MW Phase 1 · 10/10 split</span>
+          <span class="pill">Ramp to 2.4 GW</span>
+          <span class="pill">Live NPV · IRR · sensitivities</span>
+          <span class="pill">Matches the downloadable model</span>
+          <span class="pill">As of <span id="asOf">May 2026</span></span>
         </div>
       </div>
       <div class="hero-visual">
         <div class="hero-stat-frame">
-          <div>
-            <div class="mini-label">Basis</div>
-            <div id="scenarioBadge" class="scenario-badge">Audited base case</div>
+          <div class="hsf-head">
+            <span class="mini-label">Live scenario</span>
+            <span id="scenarioBadge" class="scenario-badge">Base case</span>
           </div>
           <div class="hero-grid">
-            <div>
-              <div class="mini-label">Platform NPV (15%)</div>
-              <div id="heroIrr" class="hero-number">—</div>
+            <div class="hsf-cell">
+              <div class="mini-label">NPV / EV (15%)</div>
+              <div id="heroNpv" class="hero-number">—</div>
+              <div id="dNpv" class="delta flat">—</div>
             </div>
-            <div>
+            <div class="hsf-cell">
               <div class="mini-label">Unlevered IRR</div>
-              <div id="heroFunding" class="hero-number">—</div>
+              <div id="heroIrr" class="hero-number">—</div>
+              <div id="dIrr" class="delta flat">—</div>
             </div>
-            <div>
-              <div class="mini-label">2035 connected load</div>
-              <div id="heroBtc" class="hero-number">—</div>
+            <div class="hsf-cell">
+              <div class="mini-label">2035 EBITDA</div>
+              <div id="heroEbitda" class="hero-number">—</div>
+              <div id="dEbitda" class="delta flat">—</div>
             </div>
-            <div>
-              <div class="mini-label">10Y core capex</div>
-              <div id="heroBreakeven" class="hero-number">—</div>
+            <div class="hsf-cell">
+              <div class="mini-label">Peak connected load</div>
+              <div id="heroMw" class="hero-number">—</div>
+              <div id="dMw" class="delta flat">—</div>
             </div>
           </div>
+          <div id="presetNote" class="preset-note"></div>
         </div>
       </div>
     </section>
@@ -77,146 +81,16 @@
       <aside class="control-panel card">
         <div class="panel-header">
           <div>
-            <div class="eyebrow">Live explorer</div>
+            <div class="eyebrow">Assumptions</div>
             <h3>Model controls</h3>
           </div>
           <button id="resetBtn" class="ghost-btn small">Reset</button>
         </div>
-
-        <div class="microcopy" style="margin-bottom:6px;">These controls drive an independent live model of Phase&nbsp;1 and the ramp. The headline NPV, IRR and sensitivity tables are the audited master-model outputs and do not change with the sliders.</div>
-
-        <div class="control-group">
-          <div class="control-label">Case selection</div>
-          <div class="segmented three" id="presetButtons"></div>
-          <div id="presetDescription" class="microcopy top-gap"></div>
-        </div>
-
-        <div class="control-group range-group">
-          <label for="phase1MwRange">Phase 1 total MW <span id="phase1MwValue"></span></label>
-          <input type="range" id="phase1MwRange" min="10" max="30" step="1" />
-        </div>
-
-        <div class="control-group range-group">
-          <label for="amsaShareRange">AMSA share of Phase 1 <span id="amsaShareValue"></span></label>
-          <input type="range" id="amsaShareRange" min="0.10" max="0.60" step="0.01" />
-        </div>
-
-        <div class="control-group range-group">
-          <label for="solarMwRange">AMSA solar MW in Year 1 <span id="solarMwValue"></span></label>
-          <input type="range" id="solarMwRange" min="0" max="20" step="1" />
-        </div>
-
-        <div class="control-group range-group">
-          <label for="btcRange">BTC price start (USD) <span id="btcValue"></span></label>
-          <input type="range" id="btcRange" min="40000" max="120000" step="2500" />
-        </div>
-
-        <div class="control-group range-group">
-          <label for="btcGrowthRange">BTC growth p.a. <span id="btcGrowthValue"></span></label>
-          <input type="range" id="btcGrowthRange" min="0.00" max="0.25" step="0.01" />
-        </div>
-
-        <div class="control-group range-group">
-          <label for="networkGrowthRange">Network hash growth p.a. <span id="networkGrowthValue"></span></label>
-          <input type="range" id="networkGrowthRange" min="0.05" max="0.30" step="0.01" />
-        </div>
-
-        <div class="control-group range-group">
-          <label for="uptimeRange">Technical uptime <span id="uptimeValue"></span></label>
-          <input type="range" id="uptimeRange" min="0.85" max="0.99" step="0.01" />
-        </div>
-
-        <div class="control-group range-group">
-          <label for="grootvleiTariffRange">Grootvlei tariff (R/kWh) <span id="grootvleiTariffValue"></span></label>
-          <input type="range" id="grootvleiTariffRange" min="0.70" max="1.30" step="0.01" />
-        </div>
-
-        <div class="control-group range-group">
-          <label for="amsaTariffRange">AMSA Eskom tariff (R/kWh) <span id="amsaTariffValue"></span></label>
-          <input type="range" id="amsaTariffRange" min="0.50" max="1.10" step="0.01" />
-        </div>
-
-        <div class="control-group range-group">
-          <label for="hashrateRange">Miner hashrate (TH/unit) <span id="hashrateValue"></span></label>
-          <input type="range" id="hashrateRange" min="600" max="800" step="10" />
-        </div>
-
-        <div class="control-group range-group">
-          <label for="efficiencyRange">Miner efficiency (J/TH) <span id="efficiencyValue"></span></label>
-          <input type="range" id="efficiencyRange" min="11.0" max="14.0" step="0.1" />
-        </div>
-
-        <div class="control-group range-group">
-          <label for="minerPriceRange">Miner price (USD / unit) <span id="minerPriceValue"></span></label>
-          <input type="range" id="minerPriceRange" min="4500" max="7500" step="50" />
-        </div>
-
-        <div class="control-group range-group">
-          <label for="solarCapexRange">Solar CAPEX (R'm / MW) <span id="solarCapexValue"></span></label>
-          <input type="range" id="solarCapexRange" min="5000" max="10000" step="100" />
-        </div>
-
-        <div class="control-group range-group">
-          <label for="drPriceRange">Demand response price (R/kWh) <span id="drPriceValue"></span></label>
-          <input type="range" id="drPriceRange" min="0.00" max="0.55" step="0.01" />
-        </div>
-
-        <div class="control-group range-group">
-          <label for="aiPriceRange">AI / hyperscaler price (USD/MWh) <span id="aiPriceValue"></span></label>
-          <input type="range" id="aiPriceRange" min="80" max="220" step="5" />
-        </div>
-
-        <div class="control-group range-group">
-          <label for="debtRateRange">Senior debt rate p.a. <span id="debtRateValue"></span></label>
-          <input type="range" id="debtRateRange" min="0.08" max="0.18" step="0.005" />
-        </div>
-
-        <div class="control-group range-group">
-          <label for="equityShareRange">Equity share of funding <span id="equityShareValue"></span></label>
-          <input type="range" id="equityShareRange" min="0.20" max="0.60" step="0.01" />
-        </div>
-
-        <div class="control-group range-group">
-          <label for="rampFactorRange">10Y ramp factor <span id="rampFactorValue"></span></label>
-          <input type="range" id="rampFactorRange" min="0.60" max="1.40" step="0.05" />
-        </div>
-
-        <div class="toggle-row">
-          <label class="toggle">
-            <input type="checkbox" id="drToggle" />
-            <span></span>
-          </label>
-          <div>
-            <div class="control-label compact">Include demand-response upside</div>
-            <div class="microcopy">Off in the conservative base case.</div>
-          </div>
-        </div>
-
-        <div class="toggle-row">
-          <label class="toggle">
-            <input type="checkbox" id="aiToggle" />
-            <span></span>
-          </label>
-          <div>
-            <div class="control-label compact">Include Year‑2+ AI / hyperscaler upside</div>
-            <div class="microcopy">Applied only to the longer-range platform view.</div>
-          </div>
-        </div>
-
-        <div class="toggle-row">
-          <label class="toggle">
-            <input type="checkbox" id="comparisonModeToggle" />
-            <span></span>
-          </label>
-          <div>
-            <div class="control-label compact">Enable scenario comparison</div>
-            <div class="microcopy">Save snapshots and compare scenarios side by side.</div>
-          </div>
-        </div>
-
+        <div class="microcopy">Start from an audited scenario, or move any lever to build your own. Everything on the right updates live.</div>
+        <div id="presetRow" class="preset-row"></div>
+        <div id="controlGroups"></div>
         <div class="controls-footer">
-          <a id="modelDownloadSide" class="secondary-btn full" target="_blank" rel="noopener">Download 10-year model</a>
-          <button id="saveSnapshotBtn" class="ghost-btn full">Save current snapshot</button>
+          <a id="dlModelSide" class="secondary-btn full" target="_blank" rel="noopener">Download full 10-year model</a>
         </div>
       </aside>
 
@@ -225,28 +99,28 @@
 
         <section class="card tab-shell">
           <div class="tab-header" id="tabHeader"></div>
-          <div id="tabContent"></div>
+          <div id="tabBody" class="tab-body"></div>
         </section>
 
-        <section id="comparisonSection" class="card comparison-section hidden">
+        <section class="card doc-shell">
           <div class="panel-header">
             <div>
-              <div class="eyebrow">Scenario comparison</div>
-              <h3>Saved scenarios</h3>
+              <div class="eyebrow">Investor pack</div>
+              <h3>Go deeper</h3>
             </div>
-            <button id="clearSnapshotsBtn" class="ghost-btn small">Clear</button>
           </div>
-          <div id="snapshotGrid" class="snapshot-grid"></div>
+          <div id="docList" class="doc-list"></div>
         </section>
       </div>
     </section>
   </main>
 
   <footer class="page-footer">
-    <div>Core Platform Acceleration Case (Layers 1–4) • interactive scenario &amp; sensitivity tool • for discussion purposes only.</div>
-    <div id="sourceNotesFooter"></div>
+    <div id="footMeta"></div>
+    <div>Investor enquiries: <a href="mailto:carel@bitmachbtc.com">carel@bitmachbtc.com</a></div>
   </footer>
 
+  <script src="assets/js/model.js"></script>
   <script src="assets/js/data.js"></script>
   <script src="assets/js/app.js"></script>
 </body>
