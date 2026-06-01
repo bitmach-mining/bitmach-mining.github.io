@@ -3,125 +3,150 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BitMach — Interactive Investment Model</title>
-  <meta name="description" content="Interactive investor model for BitMach's Core Platform Acceleration Case (Layers 1–4). Adjust the real model assumptions and watch NPV, IRR, EBITDA and the full sensitivity suite recompute live — matching the downloadable Excel model exactly." />
+  <title>BitMach — Four Revenue Layers</title>
+  <meta name="description" content="How BitMach earns from contracted power four ways on the same megawatts — and what the four layers are worth together. Interactive, matching the audited model." />
   <link rel="icon" type="image/png" href="assets/img/logo-white.png" />
   <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body>
-  <div class="background-shell"></div>
+  <div class="bg"></div>
 
   <header class="topbar">
-    <div class="brand-lockup">
+    <div class="brand">
       <img src="assets/img/logo-white.png" alt="BitMach" class="brand-logo" />
-      <div>
-        <div class="eyebrow">Interactive investment model</div>
-        <h1>Energy That Yields</h1>
-      </div>
+      <div><div class="eyebrow">Core Platform · Layers 1–4 · as of <span id="asOf">May 2026</span></div><h1>Energy That Yields</h1></div>
     </div>
     <div class="topbar-actions">
-      <a id="dlModelTop" class="secondary-btn" target="_blank" rel="noopener">Download 10-year model</a>
-      <a id="dlPhase1" class="primary-btn" target="_blank" rel="noopener">Download Phase 1 model</a>
+      <a id="dlTop" class="secondary-btn" target="_blank" rel="noopener">10-year model</a>
+      <a id="dlP1" class="primary-btn" target="_blank" rel="noopener">Phase 1 model</a>
     </div>
   </header>
 
-  <main class="page-shell">
-    <section class="hero-card card">
-      <div class="hero-copy">
-        <div class="hero-kicker">BitMach · Digital | Energy | Power | Infrastructure</div>
-        <h2>Run the investment case yourself.</h2>
-        <p>
-          This is the <strong>Core Platform Acceleration Case</strong> — the same audited ten-year model behind our investor pack, made interactive. Move any assumption on the left and the valuation, returns, revenue mix and sensitivity tables recompute instantly, exactly the way the downloadable Excel does.
-        </p>
-        <p>
-          The model covers Revenue Layers&nbsp;1–4: the Bitcoin anchor, demand response and grid services, energy-market value, and AI/data-centre power resale and hosting. Owned-GPU inference (Layer&nbsp;5) is deliberately excluded and held as a separate SPV option.
-        </p>
-        <div class="hero-pills">
-          <span class="pill">20 MW Phase 1 · 10/10 split</span>
-          <span class="pill">Ramp to 2.4 GW</span>
-          <span class="pill">Live NPV · IRR · sensitivities</span>
-          <span class="pill">Matches the downloadable model</span>
-          <span class="pill">As of <span id="asOf">May 2026</span></span>
+  <!-- HERO: thesis + the four-layer stack as the single hero visual -->
+  <section class="hero">
+    <div class="hero-intro">
+      <div class="hero-kicker">BitMach · Digital | Energy | Power | Infrastructure</div>
+      <h2>Four revenue layers,<br/>one set of megawatts.</h2>
+      <p id="heroThesis"></p>
+      <div class="hero-headline">
+        <div class="hh"><div class="hh-v" id="hvVal">—</div><div class="hh-l">Enterprise value</div></div>
+        <div class="hh"><div class="hh-v" id="hvIrr">—</div><div class="hh-l">Unlevered IRR</div></div>
+        <div class="hh"><div class="hh-v" id="hvRev">—</div><div class="hh-l">2035 revenue</div></div>
+        <div class="hh"><div class="hh-v" id="hvMw">—</div><div class="hh-l">Peak load</div></div>
+      </div>
+    </div>
+    <div class="hero-chartwrap">
+      <div id="heroChart" class="bigchart"></div>
+      <div id="heroLegend" class="legend"></div>
+    </div>
+  </section>
+
+  <!-- SCENARIO STRIP -->
+  <section class="scenbar">
+    <div class="scenbar-l">
+      <span class="scen-eyebrow">Scenario</span>
+      <div id="scenStrip" class="scen-strip"></div>
+      <button id="resetBtn" class="ghost-btn small">Reset</button>
+    </div>
+    <div id="scenNote" class="scen-note"></div>
+  </section>
+
+  <main class="flow">
+
+    <!-- FOUR LAYER CHAPTERS -->
+    <section class="chapter ch-l1" id="ch_l1"></section>
+    <section class="chapter ch-l2" id="ch_l2"></section>
+    <section class="chapter ch-l3" id="ch_l3"></section>
+    <section class="chapter ch-l4" id="ch_l4"></section>
+
+    <!-- VALUATION -->
+    <section class="block card">
+      <div class="block-head"><span class="block-tag">Together</span><h3>What the four layers are worth</h3>
+      <p class="block-sub">The four layers produce R29.0bn of revenue and R18.6bn of EBITDA by 2035. Valued at a multiple of that EBITDA plus ten years of discounted cash flow, the platform’s enterprise value follows. About four-fifths of it sits in the terminal multiple — so it is shown openly, and you set it yourself.</p></div>
+      <div id="vBridge"></div>
+      <div class="val-grid">
+        <div class="val-card">
+          <h4>Where the value sits</h4>
+          <div id="vTransp"></div>
+          <div id="ctl_val" class="inline-ctl"></div>
+        </div>
+        <div class="val-card">
+          <h4>NPV vs discount rate <span class="live">live</span></h4>
+          <div id="vDiscount"></div>
+        </div>
+        <div class="val-card">
+          <h4>NPV vs terminal multiple <span class="live">live</span></h4>
+          <div id="vTerminal"></div>
         </div>
       </div>
-      <div class="hero-visual">
-        <div class="hero-stat-frame">
-          <div class="hsf-head">
-            <span class="mini-label">Live scenario</span>
-            <span id="scenarioBadge" class="scenario-badge">Base case</span>
-          </div>
-          <div class="hero-grid">
-            <div class="hsf-cell">
-              <div class="mini-label">NPV / EV (15%)</div>
-              <div id="heroNpv" class="hero-number">—</div>
-              <div id="dNpv" class="delta flat">—</div>
-            </div>
-            <div class="hsf-cell">
-              <div class="mini-label">Unlevered IRR</div>
-              <div id="heroIrr" class="hero-number">—</div>
-              <div id="dIrr" class="delta flat">—</div>
-            </div>
-            <div class="hsf-cell">
-              <div class="mini-label">2035 EBITDA</div>
-              <div id="heroEbitda" class="hero-number">—</div>
-              <div id="dEbitda" class="delta flat">—</div>
-            </div>
-            <div class="hsf-cell">
-              <div class="mini-label">Peak connected load</div>
-              <div id="heroMw" class="hero-number">—</div>
-              <div id="dMw" class="delta flat">—</div>
-            </div>
-          </div>
-          <div id="presetNote" class="preset-note"></div>
-        </div>
+    </section>
+
+    <!-- SCALE -->
+    <section class="block card">
+      <div class="block-head"><span class="block-tag">Build-out</span><h3>Scaling to 2.4 GW, in milestone-gated steps</h3>
+      <p class="block-sub">Capacity is released against operating proof, not funded upfront — from a 20 MW proof to 2.4 GW across five named node clusters. Switch the ramp to test the pace.</p></div>
+      <div id="rampSelect" class="ramp-select"></div>
+      <div class="chartcard"><div id="rampChart" class="bigchart"></div><div id="rampLegend" class="legend"></div></div>
+      <div class="val-grid two">
+        <div class="val-card"><h4>10-year capex bridge <span class="live">live</span> · <span id="capexTotal">—</span></h4><div id="capexBridge"></div><p class="fine">Owned GPUs are excluded entirely — AI/DC hosting is power-secure capacity only, partner- or customer-funded.</p></div>
+        <div class="val-card"><h4>Milestone-gated capital</h4><div id="milestones" class="ms-list"></div></div>
       </div>
     </section>
 
-    <section class="layout-grid">
-      <aside class="control-panel card">
-        <div class="panel-header">
-          <div>
-            <div class="eyebrow">Assumptions</div>
-            <h3>Model controls</h3>
-          </div>
-          <button id="resetBtn" class="ghost-btn small">Reset</button>
-        </div>
-        <div class="microcopy">Start from an audited scenario, or move any lever to build your own. Everything on the right updates live.</div>
-        <div id="presetRow" class="preset-row"></div>
-        <div id="controlGroups"></div>
-        <div class="controls-footer">
-          <a id="dlModelSide" class="secondary-btn full" target="_blank" rel="noopener">Download full 10-year model</a>
-        </div>
-      </aside>
-
-      <div class="content-stack">
-        <section class="kpi-grid" id="kpiGrid"></section>
-
-        <section class="card tab-shell">
-          <div class="tab-header" id="tabHeader"></div>
-          <div id="tabBody" class="tab-body"></div>
-        </section>
-
-        <section class="card doc-shell">
-          <div class="panel-header">
-            <div>
-              <div class="eyebrow">Investor pack</div>
-              <h3>Go deeper</h3>
-            </div>
-          </div>
-          <div id="docList" class="doc-list"></div>
-        </section>
+    <!-- PHASE 1 -->
+    <section class="block card">
+      <div class="block-head"><span class="block-tag">Proof</span><h3>The 20 MW proof of execution <span class="static">audited Phase 1 model</span></h3>
+      <p id="p1Intro" class="block-sub"></p></div>
+      <div id="p1Metrics" class="p1-grid"></div>
+      <div class="val-grid two">
+        <div class="val-card"><h4>Phase 1 capital stack</h4><div id="p1Stack" class="cap-stack"></div><div class="cap-tot">Peak funding <strong>R535.5m</strong> · funded DSRA R27.2m</div></div>
+        <div class="val-card"><h4>Coverage &amp; structure</h4><p id="p1Coverage" class="fine"></p></div>
       </div>
     </section>
+
+    <!-- DOCS -->
+    <section class="block card">
+      <div class="block-head"><span class="block-tag">↗</span><h3>Go deeper</h3><p class="block-sub">Every figure here is generated by the audited models below.</p></div>
+      <div id="docList" class="doc-list"></div>
+    </section>
+
   </main>
 
-  <footer class="page-footer">
+  <footer class="footer">
     <div id="footMeta"></div>
     <div>Investor enquiries: <a href="mailto:carel@bitmachbtc.com">carel@bitmachbtc.com</a></div>
   </footer>
 
   <script src="assets/js/model.js"></script>
   <script src="assets/js/data.js"></script>
+  <script>
+  /* build the four layer chapters from data before app.js runs its update() */
+  (function(){
+    function build(){
+      var D=window.BITMACH; if(!D){return setTimeout(build,0);}
+      document.getElementById('heroThesis').textContent=D.thesis;
+      D.layers.forEach(function(L,idx){
+        var sec=document.getElementById('ch_'+L.id); if(!sec)return;
+        var flip = idx%2===1 ? ' flip':'';
+        sec.className='chapter ch-'+L.id+flip;
+        sec.style.setProperty('--accent', L.hex);
+        sec.innerHTML =
+          '<div class="ch-left">'
+          + '<div class="ch-tag" style="color:'+L.hex+'">'+L.tag+'</div>'
+          + '<h3>'+L.name+'</h3>'
+          + '<p class="ch-what">'+L.what+'</p>'
+          + '<div class="ch-stats" id="stats_'+L.id+'"></div>'
+          + '<p class="ch-plays">'+L.plays+'</p>'
+          + (L.sliders.length ? '<div class="ch-ctl" id="ctl_'+L.id+'"></div>' : '')
+          + (L.showRelief ? '<div class="relief" id="relief_'+L.id+'"></div>' : '')
+          + '<div class="ch-foot">'+L.footnote+'</div>'
+          + '</div>'
+          + '<div class="ch-right"><div class="chartcard"><div class="ch-chart" id="chart_'+L.id+'"></div></div></div>';
+      });
+    }
+    build();
+  })();
+  </script>
   <script src="assets/js/app.js"></script>
 </body>
 </html>
