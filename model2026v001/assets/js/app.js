@@ -78,6 +78,8 @@
   function setDownloadLinks() {
     document.getElementById('modelDownloadTop').href = data.modelDownloadUrl;
     document.getElementById('modelDownloadSide').href = data.modelDownloadUrl;
+    var p1 = document.getElementById('phase1ModelDownloadTop');
+    if (p1 && data.phase1ModelUrl) p1.href = data.phase1ModelUrl;
   }
 
   function buildPresetButtons() {
@@ -820,11 +822,11 @@
         name: '10Y platform',
         mw: annual[annual.length - 1].totalMw,
         tariff: controls.grootvleiTariff,
-        note: 'Long-range ramp using the current 10-year site schedule with scenario scaling.',
+        note: 'Audited Core Platform (Layers 1–4); live ramp shown for shape only.',
         chips: [
-          `${formatMw(annual[annual.length - 1].totalMw)} compute`,
-          `${formatMw(annual[annual.length - 1].solarMw)} solar`,
-          `${formatPercent(irr(annual.map((row) => row.cashflow)) * 100, 1)} IRR`
+          `${formatMw(annual[annual.length - 1].totalMw)} live ramp`,
+          `${data.audited.headline.load2035} audited 2035`,
+          `${data.audited.headline.irr} platform IRR`
         ]
       }
     ];
@@ -867,65 +869,65 @@
   }
 
   function renderHero(metrics) {
-    document.getElementById('scenarioBadge').textContent = data.presets[state.presetKey].label;
-    document.getElementById('heroIrr').textContent = formatPercent(metrics.summary.irr10 * 100, 1);
-    document.getElementById('heroFunding').textContent = formatCurrencyZarShort(metrics.summary.peakFunding);
-    document.getElementById('heroBtc').textContent = `${metrics.summary.year1Btc.toFixed(1)} BTC`;
-    document.getElementById('heroBreakeven').textContent = formatCurrencyUsd(metrics.summary.breakEvenUsd, 0);
+    // Hero shows the AUTHORITATIVE audited Core Platform headlines (static, from the master model).
+    const a = data.audited.headline;
+    document.getElementById('scenarioBadge').textContent = 'Audited base case';
+    document.getElementById('heroIrr').textContent = a.npv;
+    document.getElementById('heroFunding').textContent = a.irr;
+    document.getElementById('heroBtc').textContent = a.load2035;
+    document.getElementById('heroBreakeven').textContent = a.capex10y;
   }
 
   function renderKpis(metrics) {
+    const a = data.audited.headline;
     const splitValue = `${formatMw(metrics.summary.phase1GrootvleiMw)} / ${formatMw(metrics.summary.phase1AmsaMw)}`;
-    const paybackText = Number.isFinite(metrics.summary.phase1SimplePaybackYears)
-      ? `${metrics.summary.phase1SimplePaybackYears.toFixed(1)} yrs`
-      : 'NM';
     const cards = [
       {
-        label: '10Y unlevered IRR',
-        value: formatPercent(metrics.summary.irr10 * 100, 1),
-        sub: 'Updated master-model base case return screen.',
+        label: 'Platform NPV (15%)',
+        value: a.npv,
+        sub: 'Audited Core Platform DCF — Layers 1–4.',
         highlight: true
       },
       {
-        label: 'Phase 1 split',
-        value: splitValue,
-        sub: `Base reference split • AMSA solar ${formatMw(metrics.summary.phase1SolarMw)} in Year 1.`,
+        label: 'Unlevered IRR',
+        value: a.irr,
+        sub: 'Incl. 2035 terminal value at 8× EBITDA.',
         highlight: false
       },
       {
-        label: 'Phase 1 payback',
-        value: paybackText,
-        sub: 'Simple Phase 1 CAPEX basis divided by Year-1 EBITDA.',
+        label: '2035 EBITDA',
+        value: a.ebitda2035,
+        sub: `On ${a.rev2035} revenue at ${a.load2035} connected load.`,
+        highlight: false
+      },
+      {
+        label: '10-year core capex',
+        value: a.capex10y,
+        sub: 'Mining, electrical, solar and AI/DC hosting — no owned GPUs.',
         highlight: false
       },
       {
         label: 'Year‑1 EBITDA',
         value: formatCurrencyZarShort(metrics.summary.year1Ebitda),
-        sub: 'High-level operating earnings after energy and recurring opex.',
-        highlight: false
-      },
-      {
-        label: 'Peak funding need',
-        value: formatCurrencyZarShort(metrics.summary.peakFunding),
-        sub: `Equity ${formatCurrencyZarShort(metrics.summary.equityDraw)} • debt ${formatCurrencyZarShort(metrics.summary.debtDraw)}.`,
-        highlight: false
-      },
-      {
-        label: 'First live revenue month',
-        value: metrics.summary.firstLiveMonth || '—',
-        sub: `${metrics.summary.firstPositiveMonth ? `EBITDA positive from ${metrics.summary.firstPositiveMonth}.` : 'Profitability becomes visible after energisation.'}`,
+        sub: 'Live explorer • audited Phase 1 base R100.7m.',
         highlight: false
       },
       {
         label: 'Break-even BTC',
         value: formatCurrencyUsd(metrics.summary.breakEvenUsd, 0),
-        sub: 'Conservative operating break-even lens on Phase 1 cost structure.',
+        sub: 'Live explorer • audited Phase 1 base $42,463.',
+        highlight: false
+      },
+      {
+        label: 'First live revenue month',
+        value: metrics.summary.firstLiveMonth || '—',
+        sub: `${metrics.summary.firstPositiveMonth ? `Live explorer • EBITDA positive from ${metrics.summary.firstPositiveMonth}.` : 'Live explorer.'}`,
         highlight: false
       },
       {
         label: 'Year‑1 energy cost',
         value: formatCurrencyZarShort(metrics.summary.year1EnergyCost),
-        sub: `${formatPercent(metrics.summary.year1SolarShare * 100, 1)} solar share in the active Phase 1 operating mix.`,
+        sub: `Live explorer • ${formatPercent(metrics.summary.year1SolarShare * 100, 1)} solar share at ${splitValue} split.`,
         highlight: false
       }
     ];
@@ -977,26 +979,26 @@
     return `
       <div class="tab-panel-grid">
         <div class="panel-card span-5">
-          <h4>Quick investment view</h4>
-          <div class="gauge" style="background: conic-gradient(var(--red) 0deg, var(--red) ${Math.max(0, Math.min(360, Math.round(((Number.isFinite(metrics.summary.irr10) ? metrics.summary.irr10 * 100 : 0) / 35) * 360)))}deg, rgba(255,255,255,0.08) ${Math.max(0, Math.min(360, Math.round(((Number.isFinite(metrics.summary.irr10) ? metrics.summary.irr10 * 100 : 0) / 35) * 360)))}deg 360deg);">
+          <h4>Audited Core Platform <span class="audited-tag">Layers 1–4</span></h4>
+          <div class="gauge" style="background: conic-gradient(var(--red) 0deg, var(--red) ${Math.round((38.5 / 45) * 360)}deg, rgba(255,255,255,0.08) ${Math.round((38.5 / 45) * 360)}deg 360deg);">
             <div class="gauge-content">
-              <div class="mini-label">10Y IRR</div>
-              <div class="big">${formatPercent(metrics.summary.irr10 * 100, 1)}</div>
+              <div class="mini-label">Unlevered IRR</div>
+              <div class="big">${data.audited.headline.irr}</div>
             </div>
           </div>
           <div class="badge-row">
-            <div class="badge good">${data.metadata.activeCasePack}</div>
+            <div class="badge good">${data.audited.headline.npv} NPV @ 15%</div>
+            <div class="badge">${data.audited.headline.load2035} by 2035</div>
             <div class="badge">${data.metadata.activePhase1Split}</div>
-            <div class="badge ${metrics.scenario.includeAI ? 'warn' : 'good'}">Optionality ${metrics.scenario.includeAI || metrics.scenario.includeDR ? 'partly on' : 'off by default'}</div>
           </div>
           <p>
-            This interactive dashboard is designed to separate underwritten Phase 1 economics from expansion layers, while allowing investors to test how value responds to energy cost, hardware assumptions, capital structure and platform scale.
+            Headline economics are the audited Core Platform (Layers 1–4) outputs. The control panel and the Phase 1 / ramp charts are an independent live explorer for testing sensitivities — useful for intuition, not a re-run of the full master model.
           </p>
         </div>
 
         <div class="panel-card span-7">
-          <h4>Growth & execution advantage</h4>
-          <div class="roadmap">
+          <h4>Growth &amp; execution advantage</h4>
+          <div class="roadmap two-col">
             ${data.strategy.executionSignals.map((item) => `
               <div class="roadmap-step">
                 <div class="phase-number">${item.title}</div>
@@ -1008,7 +1010,7 @@
         </div>
 
         <div class="panel-card span-6 chart-area">
-          <h4>5-year operating view</h4>
+          <h4>5-year operating view <span class="live-tag">live explorer</span></h4>
           ${renderGroupedBars(metrics.annual.slice(0, 5), [
             { key: 'revenue', label: 'Revenue', color: 'silver' },
             { key: 'ebitda', label: 'EBITDA', color: 'teal' },
@@ -1077,10 +1079,11 @@
         <div class="panel-card span-6">
           <h4>Why the scale path is credible</h4>
           <div class="matrix-list">
-            <div class="matrix-row"><div class="key">Initial operating footprint</div><div>Base case starts with 20 MW across Grootvlei and AMSA Vanderbijlpark.</div></div>
-            <div class="matrix-row"><div class="key">Discrete step changes</div><div>Capacity enters in modular site blocks, which is why the long-range ramp is stepwise rather than linear.</div></div>
-            <div class="matrix-row"><div class="key">Brownfield speed</div><div>Existing infrastructure can shorten commissioning cycles relative to a conventional greenfield data-centre build.</div></div>
-            <div class="matrix-row"><div class="key">Revenue layering</div><div>Bitcoin anchors day-one economics, while additional revenue layers can be added without being required for the base case.</div></div>
+            <div class="matrix-row"><div class="key">Initial footprint</div><div>20 MW Phase 1 — 10 MW Grootvlei (Cooling Tower 5) + 10 MW AMSA Vanderbijlpark.</div></div>
+            <div class="matrix-row"><div class="key">Milestone-gated capital</div><div>Each capacity step (160 → 550 → 1,350 → 2,000 → 2,400 MW) releases only against operating proof, not upfront.</div></div>
+            <div class="matrix-row"><div class="key">Tariff path</div><div>R1.20 → R0.80 → R0.60 → R0.50/kWh, earned through DR proof and Eskom / NTCSA recognition.</div></div>
+            <div class="matrix-row"><div class="key">Revenue layering</div><div>Bitcoin anchors day one; DR, tariff relief and AI/DC hosting diversify the mix toward 56% AI/DC by 2035.</div></div>
+            <div class="matrix-row"><div class="key">Layer 5 discipline</div><div>Owned GPU inference is excluded from the core case and ring-fenced as a separate SPV option.</div></div>
           </div>
         </div>
 
@@ -1172,7 +1175,7 @@
     return `
       <div class="tab-panel-grid">
         <div class="panel-card span-6">
-          <h4>Illustrative external funding mix</h4>
+          <h4>Live external funding mix <span class="live-tag">explorer</span></h4>
           <div class="capital-stack-visual">
             <span class="cap-seg equity" style="width:${eqPct}%"></span>
             <span class="cap-seg mezz" style="width:${debtPct}%"></span>
@@ -1200,86 +1203,101 @@
           ${renderCashDebtChart(metrics.monthly)}
         </div>
         <div class="panel-card span-5">
-          <h4>Illustrative capital structure reference</h4>
-          <p>
-            Phase 1 investor materials reference approximately ${formatCurrencyUsdShort(data.presentationFrame.phase1CapexUsd)} of capex. The interactive model lets users flex the equity and debt mix around an illustrative reference structure while keeping the operating case transparent.
-          </p>
-          <div class="badge-row">
-            <div class="badge ${Math.abs(metrics.summary.phase1CapexGapVsDeckUsd) <= 3 ? 'good' : 'warn'}">Scenario capex basis ${formatCurrencyUsdShort(metrics.summary.year1CapexBasis / 1000 / metrics.scenario.fx * 1000000)}</div>
-            <div class="badge">${data.presentationFrame.publishedStructure}</div>
+          <h4>Audited Phase 1 capital stack <span class="audited-tag">underwriting model</span></h4>
+          ${renderAuditedCapitalStack(data.audited.phase1.stack)}
+          <div class="matrix-list top-gap">
+            ${data.audited.phase1.metrics.slice(0, 6).map((m) => `<div class="matrix-row"><div class="key">${m.label}</div><div>${m.value}</div></div>`).join('')}
           </div>
-          <p class="microcopy">Scenario controls allow investors to test alternative funding mixes while keeping the Phase 1 capital reference visible.</p>
+          <p class="microcopy top-gap">Authoritative figures from the audited Phase 1 underwriting model. The live funding mix on the left is the explorer's own approximation around the scenario controls.</p>
         </div>
       </div>
     `;
   }
 
   function renderPlatformTab(metrics) {
+    const a = data.audited;
     return `
       <div class="tab-panel-grid">
+        <div class="panel-card span-12">
+          <h4>Audited Core Platform snapshot <span class="audited-tag">Layers 1–4</span></h4>
+          ${renderAuditedSnapshot(a.snapshot)}
+          <p class="microcopy top-gap">The 2027 step-up reflects the milestone-gated ramp to ~1.35 GW once Phase 1 proof unlocks scale capital; revenue softens around the 2032 halving before the AI/DC and grid-services layers carry the mix.</p>
+        </div>
+
+        <div class="panel-card span-6">
+          <h4>2035 revenue mix</h4>
+          ${renderMixBar(a.revenueMix)}
+          <p class="microcopy top-gap">The intended transition from a merchant Bitcoin position to a diversified, infrastructure-style revenue base. Tariff-relief value is treated as an energy-cost reduction, not a revenue layer.</p>
+        </div>
+
+        <div class="panel-card span-6">
+          <h4>10-year capex bridge <span class="audited-tag">${a.capexBridge.total}</span></h4>
+          ${renderAuditedBars(a.capexBridge.items, a.capexBridge.max, 'value', 'label')}
+          <p class="microcopy top-gap">Owned GPUs are excluded entirely — AI/DC hosting infrastructure is power-secure capacity only, with hardware partner- or customer-funded.</p>
+        </div>
+
         <div class="panel-card span-7 chart-area">
-          <h4>10Y compute ramp by site</h4>
+          <h4>Live compute ramp by site <span class="live-tag">explorer · shape only</span></h4>
           ${renderRampStack(metrics.annual)}
         </div>
-        <div class="panel-card span-5 chart-area">
-          <h4>10Y annual cash flow</h4>
-          ${renderSingleBars(metrics.annual, 'cashflow', 'red')}
-        </div>
-        <div class="panel-card span-6 chart-area">
-          <h4>10Y solar ramp</h4>
-          ${renderSingleBars(metrics.annual, 'solarMw', 'orange', 'MW')}
-        </div>
-        <div class="panel-card span-6">
-          <h4>10Y summary</h4>
+        <div class="panel-card span-5">
+          <h4>Live ramp engine <span class="live-tag">illustrative</span></h4>
           <div class="matrix-list">
-            <div class="matrix-row"><div class="key">Cumulative revenue</div><div>${formatCurrencyZarShort(metrics.summary.cumulativeRevenue)}</div></div>
-            <div class="matrix-row"><div class="key">Cumulative EBITDA</div><div>${formatCurrencyZarShort(metrics.summary.cumulativeEbitda)}</div></div>
-            <div class="matrix-row"><div class="key">Cumulative capex</div><div>${formatCurrencyZarShort(metrics.summary.cumulativeCapex)}</div></div>
             <div class="matrix-row"><div class="key">End-state compute MW</div><div>${formatMw(metrics.summary.maxAnnualMw)}</div></div>
             <div class="matrix-row"><div class="key">End-state solar MW</div><div>${formatMw(metrics.summary.maxAnnualSolarMw)}</div></div>
-            <div class="matrix-row"><div class="key">Final year EBITDA</div><div>${formatCurrencyZarShort(metrics.summary.finalYear.ebitda)}</div></div>
+            <div class="matrix-row"><div class="key">Live ramp EBITDA (2035)</div><div>${formatCurrencyZarShort(metrics.summary.finalYear.ebitda)}</div></div>
+            <div class="matrix-row"><div class="key">Live ramp revenue (2035)</div><div>${formatCurrencyZarShort(metrics.summary.finalYear.revenue)}</div></div>
           </div>
+          <p class="microcopy top-gap">This is a simplified live engine for exploring ramp shape and sensitivity — it omits terminal value and the full audited revenue and capex structure, so its outputs are not directly comparable to the audited headline. The authoritative platform economics are the audited figures above (R45.5bn NPV, 38.5% IRR).</p>
         </div>
       </div>
     `;
   }
 
   function renderAssumptionsTab(metrics) {
-    const quotedSubtotal = sum(data.electricalBasis.quotedPackages);
+    const a = data.audited;
+    const vc = a.valuationComposition;
     return `
       <div class="tab-panel-grid">
-        <div class="panel-card span-6">
-          <h4>Core operating assumptions</h4>
-          <div class="matrix-list">
-            <div class="matrix-row"><div class="key">BTC start / growth</div><div>${formatCurrencyUsd(metrics.scenario.btcPriceStart, 0)} • ${formatPercent(metrics.scenario.btcGrowth * 100, 1)}</div></div>
-            <div class="matrix-row"><div class="key">Network hash start / growth</div><div>${formatLargeNumber(metrics.scenario.networkHashStart)} TH/s • ${formatPercent(metrics.scenario.networkHashGrowth * 100, 1)}</div></div>
-            <div class="matrix-row"><div class="key">Uptime</div><div>${formatPercent(metrics.scenario.uptime * 100, 1)}</div></div>
-            <div class="matrix-row"><div class="key">Miner hashrate / efficiency</div><div>${metrics.scenario.minerHashrate.toFixed(0)} TH • ${metrics.scenario.minerEfficiency.toFixed(1)} J/TH</div></div>
-            <div class="matrix-row"><div class="key">Tariffs</div><div>GVL ${formatCurrencyZar(metrics.scenario.grootvleiTariff, 2)} / AMSA ${formatCurrencyZar(metrics.scenario.amsaTariff, 2)} per kWh</div></div>
-            <div class="matrix-row"><div class="key">Funding split</div><div>${formatPercent(metrics.scenario.equityShare * 100, 0)} equity / ${formatPercent((1 - metrics.scenario.equityShare) * 100, 0)} senior debt</div></div>
+        <div class="panel-card span-12">
+          <h4>Valuation composition <span class="audited-tag">audited · the key sensitivity</span></h4>
+          <div class="composition-bar">
+            <span class="composition-seg explicit" style="width:${(vc.explicit / vc.total) * 100}%">Explicit cash ${'R' + vc.explicit + 'bn'}</span>
+            <span class="composition-seg terminal" style="width:${(vc.terminal / vc.total) * 100}%">Terminal value ${'R' + vc.terminal + 'bn'} · ${vc.terminalPct}%</span>
           </div>
+          <p class="microcopy top-gap">${vc.note}</p>
         </div>
+
         <div class="panel-card span-6">
-          <h4>Electrical EPC basis</h4>
-          <p>${data.electricalBasis.quotedLabel}</p>
-          <div class="matrix-list">
-            <div class="matrix-row"><div class="key">Quoted subtotal</div><div>${formatCurrencyZarShort(quotedSubtotal)}</div></div>
-            <div class="matrix-row"><div class="key">All-in 20 MW electrical EPC</div><div>${formatCurrencyZarShort(metrics.scenario.allInElectrical20Mw)}</div></div>
-            <div class="matrix-row"><div class="key">Site-fixed portion</div><div>${formatCurrencyZarShort(metrics.scenario.electricalSiteFixedCost)}</div></div>
-            <div class="matrix-row"><div class="key">Variable portion / MW</div><div>${formatCurrencyZarShort(metrics.scenario.electricalVariablePerMw)}</div></div>
-          </div>
+          <h4>NPV by discount rate</h4>
+          ${renderAuditedBars(a.discountLadder.points, a.discountLadder.max, 'value', 'npv', 'rate')}
+          <p class="microcopy top-gap">Base case uses a 15% unlevered discount rate. Even at a punishing 25%, the platform is worth R15.1bn.</p>
         </div>
+
+        <div class="panel-card span-6">
+          <h4>NPV by 2035 terminal multiple</h4>
+          ${renderAuditedBars(a.terminalMultiple.points, a.terminalMultiple.max, 'value', 'npv', 'mult')}
+          <p class="microcopy top-gap">Base case applies 8× EBITDA. The full 5×–10× range is shown — even at a conservative 5×, NPV is R31.7bn.</p>
+        </div>
+
+        <div class="panel-card span-12">
+          <h4>Downside scenarios <span class="audited-tag">model re-run at stated inputs</span></h4>
+          ${renderDownsideTable(a.downside.rows)}
+          <p class="microcopy top-gap">${a.downside.note}</p>
+        </div>
+
         <div class="panel-card span-7 chart-area">
-          <h4>BTC × tariff sensitivity</h4>
+          <h4>Live Phase 1 sensitivity — BTC × tariff <span class="live-tag">interactive</span></h4>
           ${renderSensitivityHeatmap(metrics.sensitivity)}
+          <p class="microcopy top-gap">Each cell shows live Year-1 EBITDA with the break-even BTC price beneath, as you move the controls — computed by the Phase 1 explorer, independent of the audited platform figures above.</p>
         </div>
         <div class="panel-card span-5">
-          <h4>Reference case & downloads</h4>
+          <h4>Reference & downloads</h4>
           <div class="matrix-list">
             <div class="matrix-row"><div class="key">As of</div><div>${data.metadata.asOf}</div></div>
             <div class="matrix-row"><div class="key">Reference case</div><div>${data.metadata.activeCasePack}</div></div>
             <div class="matrix-row"><div class="key">Phase 1 split</div><div>${data.metadata.activePhase1Split}</div></div>
-            <div class="matrix-row"><div class="key">Alternative planning case</div><div>${data.metadata.alternativePhase1Split}</div></div>
+            <div class="matrix-row"><div class="key">Layer 5</div><div>${data.metadata.alternativePhase1Split}</div></div>
           </div>
           <ul class="muted-list top-gap">
             ${data.strategy.sourceRegister.map((src) => `<li><strong>${src.date}</strong> • ${src.href ? `<a href="${src.href}" target="_blank" rel="noopener">${src.title}</a>` : src.title} — ${src.use}</li>`).join('')}
@@ -1288,6 +1306,47 @@
         </div>
       </div>
     `;
+  }
+
+  function renderAuditedCapitalStack(stack) {
+    const maxAmt = Math.max.apply(null, stack.map((s) => s.amount));
+    return `<div class="cap-stack">${stack.map((s) => `
+      <div class="cap-row">
+        <div class="cap-top"><span class="cap-name">${s.name}</span><span class="cap-amt">${s.label}</span></div>
+        <div class="cap-rail"><div class="cap-fill" style="width:${(s.amount / maxAmt) * 100}%"></div></div>
+        <div class="cap-terms">${s.terms}</div>
+      </div>`).join('')}</div>`;
+  }
+
+  function renderAuditedSnapshot(snapshot) {
+    const head = '<th>Metric</th>' + snapshot.columns.map((c) => `<th>${c}</th>`).join('');
+    const body = snapshot.rows.map((r) => `<tr><td>${r.metric}</td>${r.vals.map((v) => `<td>${v}</td>`).join('')}</tr>`).join('');
+    return `<div class="table-wrap"><table class="vtable"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+  }
+
+  function renderMixBar(segments) {
+    const bar = segments.map((s) => `<span class="mix-seg" style="width:${s.pct}%;background:${s.color}" title="${s.name}: ${s.pct}%"></span>`).join('');
+    const legend = segments.map((s) => `<div class="mix-leg-row"><span class="mix-dot" style="background:${s.color}"></span><span>${s.name}</span><strong>${s.pct}%</strong></div>`).join('');
+    return `<div class="mix-bar">${bar}</div><div class="mix-legend">${legend}</div>`;
+  }
+
+  function renderAuditedBars(items, max, valueKey, labelKey, leftKey) {
+    return `<div class="aud-bars">${items.map((it) => `
+      <div class="aud-row ${it.base ? 'aud-base' : ''}">
+        <div class="aud-left">${leftKey ? it[leftKey] : ''}</div>
+        <div class="aud-rail"><div class="aud-fill" style="width:${(it[valueKey] / max) * 100}%"></div></div>
+        <div class="aud-val">${it[labelKey]}</div>
+      </div>`).join('')}</div>`;
+  }
+
+  function renderDownsideTable(rows) {
+    const body = rows.map((r) => `
+      <tr class="${r.stress ? 'row-stress' : ''}">
+        <td><strong>${r.scenario}</strong><div class="row-sub">${r.change}</div></td>
+        <td>${r.npv}</td>
+        <td>${r.irr}</td>
+      </tr>`).join('');
+    return `<div class="table-wrap"><table class="vtable"><thead><tr><th>Scenario</th><th>NPV</th><th>IRR</th></tr></thead><tbody>${body}</tbody></table></div>`;
   }
 
   function renderSnapshots() {
@@ -1514,21 +1573,22 @@
   }
 
   function renderSensitivityHeatmap(sensitivity) {
-    const finiteCells = sensitivity.cells.flatMap((row) => row.map((cell) => cell.irr)).filter((value) => Number.isFinite(value));
+    const finiteCells = sensitivity.cells.flatMap((row) => row.map((cell) => cell.ebitda)).filter((value) => Number.isFinite(value));
     const maxAbs = finiteCells.length ? Math.max.apply(null, finiteCells.map((value) => Math.abs(value))) : 0;
     const columnHeaders = sensitivity.btcLevels
       .map((btc) => `<div class="heat-label">${formatCurrencyUsd(btc, 0)}</div>`)
       .join('');
     const rows = sensitivity.tariffLevels.map((tariff, rowIndex) => {
       const cells = sensitivity.cells[rowIndex].map((cell) => {
-        const finiteIrr = Number.isFinite(cell.irr);
-        const ratio = finiteIrr && maxAbs > 0 ? Math.abs(cell.irr) / maxAbs : 0;
-        const bg = !finiteIrr
+        const v = cell.ebitda;
+        const finite = Number.isFinite(v);
+        const ratio = finite && maxAbs > 0 ? Math.abs(v) / maxAbs : 0;
+        const bg = !finite
           ? 'rgba(255,255,255,0.05)'
-          : cell.irr >= 0
+          : v >= 0
             ? `rgba(45,212,191,${0.10 + ratio * 0.35})`
             : `rgba(255,107,107,${0.10 + ratio * 0.35})`;
-        return `<div class="heat-cell" style="background:${bg}">${formatPercent(cell.irr, 1)}<span>${formatCurrencyZarShort(cell.ebitda)}</span></div>`;
+        return `<div class="heat-cell" style="background:${bg}">${formatCurrencyZarShort(v)}<span>${formatCurrencyUsd(cell.breakEven, 0)}</span></div>`;
       }).join('');
       return `<div class="heat-label">${formatCurrencyZar(tariff, 2)}</div>${cells}`;
     }).join('');
